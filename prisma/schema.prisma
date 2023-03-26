@@ -58,6 +58,8 @@ model Psychologist {
   reviews             Review[]
   medicalRecords      MedicalRecord[]
   academicFormations  AcademicFormation[]
+  targetAudiences     TargetAudience[]
+  segmentOfActivities SegmentOfActivity[]
   user                User                 @relation(fields: [userId], references: [id])
   userId              Int                  @unique
 }
@@ -145,7 +147,50 @@ model AcademicFormation {
   institution    String
   course         String
   description    String
-  
+  startDate      DateTime
+  endDate        DateTime
   psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
   psychologistId Int
+}
+
+model TargetAudience {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  description    String
+  tags           Audience[]
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
+}
+
+enum Audience {
+  CHILDREN
+  TEENAGERS
+  ADULTS
+  SENIORS
+}
+
+model SegmentOfActivity {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  description    String
+  segment        PsychologistSegmentOfActivity
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
+}
+
+enum PsychologistSegmentOfActivity { // Apenas exemplos do que pode ser colocado no segmento de atuacao do psicologo
+  clinicalPsychology
+  counselingPsychology
+  forensicPsychology
+  neuropsychology
+  organizationalPsychology
+  educationalPsychology
+  healthPsychology
+  sportsPsychology
+  socialPsychology
+  developmentalPsychology
+  cognitivePsychology
+  behavioralPsychology
 }
