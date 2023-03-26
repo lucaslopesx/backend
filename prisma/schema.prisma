@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,147 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  cpf          String
+  birthDate    DateTime
+  imageUrl     String
+  city         String
+  state        String
+  cep          String
+  phone        String
+  description  String
+  email        String        @unique
+  password     String
+  gender       String
+  client       Client?
+  psychologist Psychologist?
+}
+
+model Client {
+  id                  Int                  @id @default(autoincrement())
+  religion            String
+  relationshipStatus  RelationshipStatus
+  fatherName          String
+  fatherOccupation    String
+  motherName          String
+  motherOccupation    String
+  medicalAppointments MedicalAppointment[]
+  notifications       Notification[]
+  reviews             Review[]
+  medicalRecords      MedicalRecord[]
+  user                User                 @relation(fields: [userId], references: [id])
+  userId              Int                  @unique
+}
+
+enum RelationshipStatus {
+  single
+  married
+  divorced
+  widowed
+  separated
+  domesticPartnership
+}
+
+model Psychologist {
+  id                  Int                  @id @default(autoincrement())
+  certificationNumber String               @unique
+  medicalAppointments MedicalAppointment[]
+  notifications       Notification[]
+  reviews             Review[]
+  medicalRecords      MedicalRecord[]
+  academicFormations  AcademicFormation[]
+  user                User                 @relation(fields: [userId], references: [id])
+  userId              Int                  @unique
+}
+
+model MedicalAppointment {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  date            DateTime
+  status          AppointmentStatus @default(PENDING)
+  appointmentType AppointmentType
+  triage          Triage?
+  client          Client            @relation(fields: [clientId], references: [id])
+  clientId        Int
+  psychologist    Psychologist      @relation(fields: [psychologistId], references: [id])
+  psychologistId  Int
+}
+
+enum AppointmentType {
+  ONLINE
+  PRESENCIAL
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  RESCHEDULED
+  CANCELLED
+}
+
+model Triage {
+  id                   Int                @id @default(autoincrement())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  chiefComplaint       String
+  triggeringFacts      String
+  currentSymptoms      String
+  medicalAppointments  MedicalAppointment @relation(fields: [medicalAppointmentId], references: [id])
+  medicalAppointmentId Int                @unique
+}
+
+model Notification {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  description    String
+  viewed         Boolean      @default(false)
+  client         Client       @relation(fields: [clientId], references: [id])
+  clientId       Int
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
+}
+
+model Review {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  description    String
+  rating         Int
+  client         Client       @relation(fields: [clientId], references: [id])
+  clientId       Int
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
+}
+
+model MedicalRecord {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  notes          String
+  theme          String
+  mood           String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
+  objective      String
+  evolutionRecord String
+  client         Client       @relation(fields: [clientId], references: [id])
+  clientId       Int
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
+}
+
+model AcademicFormation {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  institution    String
+  course         String
+  description    String
+  
+  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId Int
 }
