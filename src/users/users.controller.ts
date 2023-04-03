@@ -16,7 +16,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('createUserAndPsychologist')
-  create(
+  createUserAndPsychologist(
     @Body()
     data: {
       user: Prisma.UserCreateInput;
@@ -24,7 +24,19 @@ export class UsersController {
     },
   ) {
     const { user, psychologist } = data;
-    return this.usersService.create(user, psychologist);
+    return this.usersService.createUserAndPsychologist(user, psychologist);
+  }
+
+  @Post('createUserAndClient')
+  createUserAndClient(
+    @Body()
+    data: {
+      user: Prisma.UserCreateInput;
+      client: Prisma.ClientCreateInput;
+    },
+  ) {
+    const { user, client } = data;
+    return this.usersService.createUserAndClient(user, client);
   }
 
   @Get()

@@ -7,7 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(
+  createUserAndPsychologist(
     user: Prisma.UserCreateInput,
     psychologist: Prisma.PsychologistCreateInput,
   ) {
@@ -16,6 +16,20 @@ export class UsersService {
         ...user,
         psychologist: {
           create: psychologist,
+        },
+      },
+    });
+  }
+
+  createUserAndClient(
+    user: Prisma.UserCreateInput,
+    client: Prisma.ClientCreateInput,
+  ) {
+    return this.prisma.user.create({
+      data: {
+        ...user,
+        client: {
+          create: client,
         },
       },
     });
