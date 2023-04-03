@@ -10,8 +10,11 @@ import {
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { UseFilters } from '@nestjs/common/decorators/core/exception-filters.decorator';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 
 @Controller('users')
+@UseFilters(PrismaClientExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
