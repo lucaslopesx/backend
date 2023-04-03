@@ -50,6 +50,18 @@ export class UsersService {
     return user;
   }
 
+  async getUserByPsychologistId(psychologistId: number): Promise<User | null> {
+    const user = this.prisma.user.findFirst({
+      where: {
+        psychologist: {
+          id: psychologistId,
+        },
+      },
+    });
+
+    return user;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }

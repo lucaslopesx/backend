@@ -57,6 +57,11 @@ export class UsersController {
     return this.usersService.getUserByClientId(+clientId);
   }
 
+  @Get('getUserByPsychologistId/:psychologistId')
+  getUserByPsychologistId(@Param('psychologistId') psychologistId: string) {
+    return this.usersService.getUserByPsychologistId(+psychologistId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
     return this.usersService.update(+id, user);
