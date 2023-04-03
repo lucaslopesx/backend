@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -49,9 +48,14 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @Get('getUserByClientId/:clientId')
+  getUserByClientId(@Param('clientId') clientId: string) {
+    return this.usersService.getUserByClientId(+clientId);
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
+    return this.usersService.update(+id, user);
   }
 
   @Delete(':id')
