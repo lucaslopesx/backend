@@ -37,7 +37,7 @@ model Client {
   notifications       Notification[]
   reviews             Review[]
   medicalRecords      MedicalRecord[]
-  user                User                 @relation(fields: [userId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              Int                  @unique
 }
 
@@ -60,7 +60,7 @@ model Psychologist {
   academicFormations  AcademicFormation[]
   targetAudiences     TargetAudience[]
   segmentOfActivities SegmentOfActivity[]
-  user                User                 @relation(fields: [userId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              Int                  @unique
 }
 
