@@ -49,7 +49,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     }
 
     function getResponse(status: HttpStatus, message: string) {
-      return this.response.status(status).json({
+      return response.status(status).json({
         statusCode: status,
         message: message,
       });
