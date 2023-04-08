@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTargetAudienceDto } from './dto/create-target-audience.dto';
-import { UpdateTargetAudienceDto } from './dto/update-target-audience.dto';
+import { PrismaService } from 'prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TargetAudiencesService {
-  create(createTargetAudienceDto: CreateTargetAudienceDto) {
-    return 'This action adds a new targetAudience';
+  constructor(private prisma: PrismaService) {}
+
+  create(
+    targetAudience: Prisma.TargetAudienceCreateInput,
+    psychologistId: number,
+  ) {
+    return this.prisma.targetAudience.create({
+      data: {
+        ...targetAudience,
+        psychologist: {
+          connect: {
+            id: psychologistId,
+          },
+        },
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all targetAudiences`;
+    return this.prisma.targetAudience.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} targetAudience`;
+    return this.prisma.targetAudience.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  update(id: number, updateTargetAudienceDto: UpdateTargetAudienceDto) {
-    return `This action updates a #${id} targetAudience`;
+  findByPsychologistId(psychologistId: number) {
+    return this.prisma.targetAudience.findFirst({
+      where: {
+        psychologist: {
+          id: psychologistId,
+        },
+      },
+    });
+  }
+
+  update(id: number, targetAudience: Prisma.TargetAudienceUpdateInput) {
+    return this.prisma.targetAudience.update({
+      data: targetAudience,
+      where: {
+        id: id,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} targetAudience`;
+    return this.prisma.targetAudience.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

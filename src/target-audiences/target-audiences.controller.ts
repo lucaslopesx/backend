@@ -8,8 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TargetAudiencesService } from './target-audiences.service';
-import { CreateTargetAudienceDto } from './dto/create-target-audience.dto';
-import { UpdateTargetAudienceDto } from './dto/update-target-audience.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('target-audiences')
 export class TargetAudiencesController {
@@ -18,8 +17,18 @@ export class TargetAudiencesController {
   ) {}
 
   @Post()
-  create(@Body() createTargetAudienceDto: CreateTargetAudienceDto) {
-    return this.targetAudiencesService.create(createTargetAudienceDto);
+  create(
+    @Body()
+    data: {
+      targetAudiences: Prisma.TargetAudienceCreateInput;
+      psychologistId: string;
+    },
+  ) {
+    const { targetAudiences, psychologistId } = data;
+    return this.targetAudiencesService.create(
+      targetAudiences,
+      Number(psychologistId),
+    );
   }
 
   @Get()
@@ -29,19 +38,26 @@ export class TargetAudiencesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.targetAudiencesService.findOne(+id);
+    return this.targetAudiencesService.findOne(Number(id));
+  }
+
+  @Get('findByPsychologistId/:psychologistId')
+  findByPsychologistId(@Param('psychologistId') psychologistId: string) {
+    return this.targetAudiencesService.findByPsychologistId(
+      Number(psychologistId),
+    );
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTargetAudienceDto: UpdateTargetAudienceDto,
+    @Body() targetAudiences: Prisma.TargetAudienceUpdateInput,
   ) {
-    return this.targetAudiencesService.update(+id, updateTargetAudienceDto);
+    return this.targetAudiencesService.update(Number(id), targetAudiences);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.targetAudiencesService.remove(+id);
+    return this.targetAudiencesService.remove(Number(id));
   }
 }
