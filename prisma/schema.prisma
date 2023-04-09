@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -58,7 +59,7 @@ model Psychologist {
   reviews             Review[]
   medicalRecords      MedicalRecord[]
   academicFormations  AcademicFormation[]
-  targetAudiences     TargetAudience[]
+  targetAudiences     NewTargetAudience[]
   segmentOfActivities SegmentOfActivity[]
   user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              Int                  @unique
@@ -153,17 +154,7 @@ model AcademicFormation {
   psychologistId Int
 }
 
-model TargetAudience {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  description    String
-  tags           Audience[]
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
-}
-
-enum Audience {
+enum NewTargetAudience {
   CHILDREN
   TEENAGERS
   ADULTS
