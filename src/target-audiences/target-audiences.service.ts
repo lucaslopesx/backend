@@ -6,18 +6,10 @@ import { Prisma } from '@prisma/client';
 export class TargetAudiencesService {
   constructor(private prisma: PrismaService) {}
 
-  create(
-    targetAudience: Prisma.TargetAudienceCreateInput,
-    psychologistId: number,
-  ) {
+  create(targetAudience: Prisma.TargetAudienceCreateInput) {
     return this.prisma.targetAudience.create({
       data: {
         ...targetAudience,
-        psychologist: {
-          connect: {
-            id: psychologistId,
-          },
-        },
       },
     });
   }
@@ -30,16 +22,6 @@ export class TargetAudiencesService {
     return this.prisma.targetAudience.findUnique({
       where: {
         id: id,
-      },
-    });
-  }
-
-  findByPsychologistId(psychologistId: number) {
-    return this.prisma.targetAudience.findFirst({
-      where: {
-        psychologist: {
-          id: psychologistId,
-        },
       },
     });
   }

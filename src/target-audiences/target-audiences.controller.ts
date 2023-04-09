@@ -19,16 +19,9 @@ export class TargetAudiencesController {
   @Post()
   create(
     @Body()
-    data: {
-      targetAudiences: Prisma.TargetAudienceCreateInput;
-      psychologistId: string;
-    },
+    targetAudiences: Prisma.TargetAudienceCreateInput,
   ) {
-    const { targetAudiences, psychologistId } = data;
-    return this.targetAudiencesService.create(
-      targetAudiences,
-      Number(psychologistId),
-    );
+    return this.targetAudiencesService.create(targetAudiences);
   }
 
   @Get()
@@ -39,13 +32,6 @@ export class TargetAudiencesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.targetAudiencesService.findOne(Number(id));
-  }
-
-  @Get('findByPsychologistId/:psychologistId')
-  findByPsychologistId(@Param('psychologistId') psychologistId: string) {
-    return this.targetAudiencesService.findByPsychologistId(
-      Number(psychologistId),
-    );
   }
 
   @Patch(':id')
