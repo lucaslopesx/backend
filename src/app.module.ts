@@ -6,6 +6,7 @@ import { PsychologistModule } from './psychologist/psychologist.module';
 import { ClientsModule } from './clients/clients.module';
 import { TargetAudiencesModule } from './target-audiences/target-audiences.module';
 import { AcademicFormationModule } from './academic-formation/academic-formation.module';
+import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activity.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AcademicFormationModule } from './academic-formation/academic-formation
     ClientsModule,
     TargetAudiencesModule,
     AcademicFormationModule,
+    SegmentOfActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
