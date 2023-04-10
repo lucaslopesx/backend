@@ -5,9 +5,16 @@ import { UsersModule } from './users/users.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
 import { ClientsModule } from './clients/clients.module';
 import { TargetAudiencesModule } from './target-audiences/target-audiences.module';
+import { AcademicFormationModule } from './academic-formation/academic-formation.module';
 
 @Module({
-  imports: [UsersModule, PsychologistModule, ClientsModule, TargetAudiencesModule],
+  imports: [
+    UsersModule,
+    PsychologistModule,
+    ClientsModule,
+    TargetAudiencesModule,
+    AcademicFormationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
