@@ -15,7 +15,7 @@ import { AcademicFormationService } from './academic-formation.service';
 export class AcademicFormationController {
   constructor(
     private readonly academicFormationService: AcademicFormationService,
-    private readonly userCliente: UsersController,
+    private readonly userClient: UsersController,
   ) {}
 
   @Post()
@@ -23,8 +23,9 @@ export class AcademicFormationController {
     @Body() createAcademicFormationDto: Prisma.AcademicFormationCreateInput,
   ) {
     //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = 1;
-    const userConnected = await this.userCliente.findOne(
+    const connectedPsychologistId = '1';
+    const connectedPsychologistIdNumber = 1;
+    const userConnected = await this.userClient.findOne(
       connectedPsychologistId,
     );
     if (!userConnected) {
@@ -33,7 +34,7 @@ export class AcademicFormationController {
 
     return this.academicFormationService.create(
       createAcademicFormationDto,
-      connectedPsychologistId,
+      connectedPsychologistIdNumber,
     );
   }
 
@@ -69,8 +70,8 @@ export class AcademicFormationController {
     }
 
     //TODO - Create the function to get the ID of the user doing the record/update action.
-    const connectedPsychologistId = 1;
-    const userFormation = await this.userCliente.findOne(
+    const connectedPsychologistId = '1';
+    const userFormation = await this.userClient.findOne(
       connectedPsychologistId,
     );
     if (!userFormation) {

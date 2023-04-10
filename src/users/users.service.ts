@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(
+  createUserAndPsychologist(
     user: Prisma.UserCreateInput,
     psychologist: Prisma.PsychologistCreateInput,
   ) {
@@ -21,19 +20,68 @@ export class UsersService {
     });
   }
 
+  createUserAndClient(
+    user: Prisma.UserCreateInput,
+    client: Prisma.ClientCreateInput,
+  ) {
+    return this.prisma.user.create({
+      data: {
+        ...user,
+        client: {
+          create: client,
+        },
+      },
+    });
+  }
+
   findAll() {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async getUserByClientId(clientId: number): Promise<User | null> {
+    const user = this.prisma.user.findFirst({
+      where: {
+        client: {
+          id: clientId,
+        },
+      },
+    });
+
+    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async getUserByPsychologistId(psychologistId: number): Promise<User | null> {
+    const user = this.prisma.user.findFirst({
+      where: {
+        psychologist: {
+          id: psychologistId,
+        },
+      },
+    });
+
+    return user;
+  }
+
+  findOne(id: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  update(id: number, user: Prisma.UserUpdateInput) {
+    return this.prisma.user.update({
+      data: user,
+      where: {
+        id,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }

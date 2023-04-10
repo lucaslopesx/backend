@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -37,7 +38,7 @@ model Client {
   notifications       Notification[]
   reviews             Review[]
   medicalRecords      MedicalRecord[]
-  user                User                 @relation(fields: [userId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              Int                  @unique
 }
 
@@ -60,7 +61,7 @@ model Psychologist {
   academicFormations  AcademicFormation[]
   targetAudiences     TargetAudience[]
   segmentOfActivities SegmentOfActivity[]
-  user                User                 @relation(fields: [userId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              Int                  @unique
 }
 
@@ -158,9 +159,8 @@ model TargetAudience {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   description    String
-  tags           Audience[]
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  tag            String
+  psychologist   Psychologist[]
 }
 
 enum Audience {

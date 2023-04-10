@@ -9,14 +9,17 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { NotFoundException } from '@nestjs/common/exceptions';
+import { UseFilters } from '@nestjs/common/decorators/core/exception-filters.decorator';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 
 @Controller('users')
+@UseFilters(PrismaClientExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('createUserAndPsychologist')
-  create(
+  createUserAndPsychologist(
     @Body()
     data: {
       user: Prisma.UserCreateInput;
@@ -24,7 +27,19 @@ export class UsersController {
     },
   ) {
     const { user, psychologist } = data;
-    return this.usersService.create(user, psychologist);
+    return this.usersService.createUserAndPsychologist(user, psychologist);
+  }
+
+  @Post('createUserAndClient')
+  createUserAndClient(
+    @Body()
+    data: {
+      user: Prisma.UserCreateInput;
+      client: Prisma.ClientCreateInput;
+    },
+  ) {
+    const { user, client } = data;
+    return this.usersService.createUserAndClient(user, client);
   }
 
   @Get()
@@ -37,13 +52,27 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @Get('getUserByClientId/:clientId')
+  getUserByClientId(@Param('clientId') clientId: string) {
+    return this.usersService.getUserByClientId(+clientId);
+  }
+
+  @Get('getUserByPsychologistId/:psychologistId')
+  getUserByPsychologistId(@Param('psychologistId') psychologistId: string) {
+    return this.usersService.getUserByPsychologistId(+psychologistId);
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() user: Prisma.UserUpdateInput) {
+    return this.usersService.update(+id, user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    const user = this.usersService.remove(+id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }
