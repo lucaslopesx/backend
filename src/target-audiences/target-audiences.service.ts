@@ -50,6 +50,21 @@ export class TargetAudiencesService {
     });
   }
 
+  disconnectPsychologist(psychologistId: number, targetAudienceId: number) {
+    return this.prisma.targetAudience.update({
+      data: {
+        psychologist: {
+          disconnect: {
+            id: psychologistId,
+          },
+        },
+      },
+      where: {
+        id: targetAudienceId,
+      },
+    });
+  }
+
   remove(id: number) {
     return this.prisma.targetAudience.delete({
       where: {

@@ -17,8 +17,8 @@ export class SegmentOfActivityController {
   ) {}
 
   @Post()
-  create(@Body() segmentOfActivityDto: Prisma.SegmentOfActivityCreateInput) {
-    return this.segmentOfActivityService.create(segmentOfActivityDto);
+  create(@Body() segmentOfActivity: Prisma.SegmentOfActivityCreateInput) {
+    return this.segmentOfActivityService.create(segmentOfActivity);
   }
 
   @Get()
@@ -31,12 +31,32 @@ export class SegmentOfActivityController {
     return this.segmentOfActivityService.findOne(+id);
   }
 
+  connectPsychologist(
+    @Param('psychologistId') psychologistId: string,
+    @Param('targetAudienceId') targetAudienceId: string,
+  ) {
+    return this.segmentOfActivityService.connectPsychologist(
+      Number(psychologistId),
+      Number(targetAudienceId),
+    );
+  }
+
+  disconnectPsychologist(
+    @Param('psychologistId') psychologistId: string,
+    @Param('targetAudienceId') targetAudienceId: string,
+  ) {
+    return this.segmentOfActivityService.disconnectPsychologist(
+      Number(psychologistId),
+      Number(targetAudienceId),
+    );
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() segmentOfActivityDto: Prisma.SegmentOfActivityUpdateInput,
+    @Body() segmentOfActivity: Prisma.SegmentOfActivityUpdateInput,
   ) {
-    return this.segmentOfActivityService.update(+id, segmentOfActivityDto);
+    return this.segmentOfActivityService.update(+id, segmentOfActivity);
   }
 
   @Delete(':id')

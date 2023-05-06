@@ -52,6 +52,16 @@ export class TargetAudiencesController {
     );
   }
 
+  disconnectPsychologist(
+    @Param('psychologistId') psychologistId: string,
+    @Param('targetAudienceId') targetAudienceId: string,
+  ) {
+    return this.targetAudiencesService.disconnectPsychologist(
+      Number(psychologistId),
+      Number(targetAudienceId),
+    );
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.targetAudiencesService.remove(Number(id));

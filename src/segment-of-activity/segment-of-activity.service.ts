@@ -6,10 +6,10 @@ import { PrismaService } from 'prisma/prisma.service';
 export class SegmentOfActivityService {
   constructor(private prisma: PrismaService) {}
 
-  create(segmentOfActivityDto: Prisma.SegmentOfActivityCreateInput) {
+  create(segmentOfActivity: Prisma.SegmentOfActivityCreateInput) {
     return this.prisma.segmentOfActivity.create({
       data: {
-        ...segmentOfActivityDto,
+        ...segmentOfActivity,
       },
     });
   }
@@ -26,12 +26,9 @@ export class SegmentOfActivityService {
     });
   }
 
-  update(
-    id: number,
-    segmentOfActivityDto: Prisma.SegmentOfActivityUpdateInput,
-  ) {
+  update(id: number, segmentOfActivity: Prisma.SegmentOfActivityUpdateInput) {
     return this.prisma.segmentOfActivity.update({
-      data: segmentOfActivityDto,
+      data: segmentOfActivity,
       where: {
         id: id,
       },
@@ -42,6 +39,36 @@ export class SegmentOfActivityService {
     return this.prisma.segmentOfActivity.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  connectPsychologist(psychologistId: number, targetAudienceId: number) {
+    return this.prisma.segmentOfActivity.update({
+      data: {
+        psychologist: {
+          connect: {
+            id: psychologistId,
+          },
+        },
+      },
+      where: {
+        id: targetAudienceId,
+      },
+    });
+  }
+
+  disconnectPsychologist(psychologistId: number, targetAudienceId: number) {
+    return this.prisma.segmentOfActivity.update({
+      data: {
+        psychologist: {
+          disconnect: {
+            id: psychologistId,
+          },
+        },
+      },
+      where: {
+        id: targetAudienceId,
       },
     });
   }
