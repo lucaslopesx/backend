@@ -135,8 +135,8 @@ model MedicalRecord {
   mood            String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
   objective       String
   evolutionRecord String
-  client          Client       @relation(fields: [clientId], references: [id])
-  clientId        Int
+  client          Client?      @relation(fields: [clientId], references: [id])
+  clientId        Int?
   psychologist    Psychologist @relation(fields: [psychologistId], references: [id])
   psychologistId  Int
 }
