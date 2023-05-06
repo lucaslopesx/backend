@@ -14,7 +14,7 @@ import { Prisma } from '@prisma/client';
 export class TriageController {
   constructor(private readonly triageService: TriageService) {}
 
-  @Post(':medicalAppointmentsId')
+  @Post()
   create(
     @Body() triageCreate: Prisma.TriageCreateInput,
     @Param('medicalAppointmentsId') medicalAppointmentsId: string,
