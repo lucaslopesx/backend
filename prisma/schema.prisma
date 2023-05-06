@@ -158,7 +158,6 @@ model TargetAudience {
   id           Int            @id @default(autoincrement())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  description  String
   tag          String
   psychologist Psychologist[]
 }
@@ -174,10 +173,8 @@ model SegmentOfActivity {
   id             Int                           @id @default(autoincrement())
   createdAt      DateTime                      @default(now())
   updatedAt      DateTime                      @updatedAt
-  description    String
-  segment        PsychologistSegmentOfActivity
-  psychologist   Psychologist                  @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  segment        String
+  psychologist   Psychologist[]
 }
 
 enum PsychologistSegmentOfActivity {

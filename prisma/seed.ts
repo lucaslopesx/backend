@@ -16,28 +16,49 @@ main()
 async function targetAudienceSeed() {
   const targetAudiences: Prisma.TargetAudienceCreateInput[] = [
     {
-      description: 'Target audience for children patients',
       tag: 'CHILDREN',
     },
     {
-      description: 'Target audience for teenage patients',
       tag: 'TEENAGERS',
     },
     {
-      description: 'Target audience for adult patients',
       tag: 'ADULTS',
     },
     {
-      description: 'Target audience for senior patients',
       tag: 'SENIORS',
+    },
+  ];
+
+  const segments: Prisma.SegmentOfActivityCreateInput[] = [
+    {
+      segment: 'Group therapy and workshops',
+    },
+    {
+      segment: 'Psychotherapy and counseling',
+    },
+    {
+      segment: 'Substance abuse and addiction treatment',
+    },
+    {
+      segment: 'Career counseling and vocational assessment',
+    },
+    {
+      segment: 'Sports psychology and performance enhancement',
     },
   ];
 
   for (const targetAudience of targetAudiences) {
     await prisma.targetAudience.create({
       data: {
-        description: targetAudience.description,
         tag: targetAudience.tag,
+      },
+    });
+  }
+
+  for (const segmentOfActivity of segments) {
+    await prisma.segmentOfActivity.create({
+      data: {
+        segment: segmentOfActivity.segment,
       },
     });
   }
