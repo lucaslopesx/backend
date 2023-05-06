@@ -7,6 +7,7 @@ import { ClientsModule } from './clients/clients.module';
 import { TargetAudiencesModule } from './target-audiences/target-audiences.module';
 import { AcademicFormationModule } from './academic-formation/academic-formation.module';
 import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activity.module';
+import { MedicalRecordModule } from './medical-record/medical-record.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activi
     TargetAudiencesModule,
     AcademicFormationModule,
     SegmentOfActivityModule,
+    MedicalRecordModule,
   ],
   controllers: [AppController],
   providers: [AppService],
