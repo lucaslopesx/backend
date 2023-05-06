@@ -42,6 +42,16 @@ export class TargetAudiencesController {
     return this.targetAudiencesService.update(Number(id), targetAudiences);
   }
 
+  connectPsychologist(
+    @Param('psychologistId') psychologistId: string,
+    @Param('targetAudienceId') targetAudienceId: string,
+  ) {
+    return this.targetAudiencesService.connectPsychologist(
+      Number(psychologistId),
+      Number(targetAudienceId),
+    );
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.targetAudiencesService.remove(Number(id));

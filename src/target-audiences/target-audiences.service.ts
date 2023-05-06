@@ -35,6 +35,21 @@ export class TargetAudiencesService {
     });
   }
 
+  connectPsychologist(psychologistId: number, targetAudienceId: number) {
+    return this.prisma.targetAudience.update({
+      data: {
+        psychologist: {
+          connect: {
+            id: psychologistId,
+          },
+        },
+      },
+      where: {
+        id: targetAudienceId,
+      },
+    });
+  }
+
   remove(id: number) {
     return this.prisma.targetAudience.delete({
       where: {
