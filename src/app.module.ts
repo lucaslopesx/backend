@@ -8,6 +8,8 @@ import { TargetAudiencesModule } from './target-audiences/target-audiences.modul
 import { AcademicFormationModule } from './academic-formation/academic-formation.module';
 import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activity.module';
 import { MedicalRecordModule } from './medical-record/medical-record.module';
+import { TriageModule } from './triage/triage.module';
+import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { MedicalRecordModule } from './medical-record/medical-record.module';
     AcademicFormationModule,
     SegmentOfActivityModule,
     MedicalRecordModule,
+    TriageModule,
+    MedicalAppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
