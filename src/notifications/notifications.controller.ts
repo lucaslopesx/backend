@@ -8,24 +8,41 @@ import {
   Delete,
 } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { Prisma } from '@prisma/client';
 
 @Controller('notifications')
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
-  @Post()
-  create(
-    @Body() notification: Prisma.NotificationCreateInput,
-    clientId?: string,
-    psychologistId?: string,
+  @Post('createForClient')
+  createForClient(
+    @Body()
+    data: {
+      notification: Prisma.NotificationCreateInput;
+      clientId?: string;
+    },
   ) {
-    return this.notificationsService.create(
+    const { notification, clientId } = data;
+
+    return this.notificationsService.createForClient(
       notification,
-      clientId,
-      psychologistId,
+      Number(clientId),
+    );
+  }
+
+  @Post('createForPsychologist')
+  createForPsychologist(
+    @Body()
+    data: {
+      notification: Prisma.NotificationCreateInput;
+      psychologistId: string;
+    },
+  ) {
+    const { notification, psychologistId } = data;
+
+    return this.notificationsService.createForPsychologist(
+      notification,
+      Number(psychologistId),
     );
   }
 
@@ -42,9 +59,9 @@ export class NotificationsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateNotificationDto: UpdateNotificationDto,
+    @Body() notification: Prisma.NotificationUpdateInput,
   ) {
-    return this.notificationsService.update(+id, updateNotificationDto);
+    return this.notificationsService.update(+id, notification);
   }
 
   @Delete(':id')

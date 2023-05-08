@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
@@ -8,41 +6,66 @@ import { PrismaService } from 'prisma/prisma.service';
 export class NotificationsService {
   constructor(private prisma: PrismaService) {}
 
-  create(
+  createForClient(
     notification: Prisma.NotificationCreateInput,
-    clientId: string,
-    psychologistId: string,
+    clientId: number,
   ) {
-    const data = { ...notification };
-
-    if (clientId) {
-      data.client = {
-        connect: {
-          id: clientId,
-        },
-      };
-    }
-
     return this.prisma.notification.create({
       data: {
         ...notification,
+        client: {
+          connect: {
+            id: clientId,
+          },
+        },
+      },
+    });
+  }
+
+  createForPsychologist(
+    notification: Prisma.NotificationCreateInput,
+    psychologistId: number,
+  ) {
+    return this.prisma.notification.create({
+      data: {
+        ...notification,
+        psychologist: {
+          connect: {
+            id: psychologistId,
+          },
+        },
       },
     });
   }
 
   findAll() {
-    return `This action returns all notifications`;
+    return this.prisma.notification.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} notification`;
+    return this.prisma.notification.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  update(id: number, updateNotificationDto: UpdateNotificationDto) {
-    return `This action updates a #${id} notification`;
+  update(id: number, notification: Prisma.NotificationUpdateInput) {
+    return this.prisma.notification.update({
+      data: {
+        ...notification,
+      },
+      where: {
+        id: id,
+      },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} notification`;
+    return this.prisma.notification.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
