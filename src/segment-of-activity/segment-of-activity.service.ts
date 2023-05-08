@@ -1,34 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
-export class TargetAudiencesService {
+export class SegmentOfActivityService {
   constructor(private prisma: PrismaService) {}
 
-  create(targetAudience: Prisma.TargetAudienceCreateInput) {
-    return this.prisma.targetAudience.create({
+  create(segmentOfActivity: Prisma.SegmentOfActivityCreateInput) {
+    return this.prisma.segmentOfActivity.create({
       data: {
-        ...targetAudience,
+        ...segmentOfActivity,
       },
     });
   }
 
   findAll() {
-    return this.prisma.targetAudience.findMany();
+    return this.prisma.segmentOfActivity.findMany();
   }
 
   findOne(id: number) {
-    return this.prisma.targetAudience.findUnique({
+    return this.prisma.segmentOfActivity.findUnique({
       where: {
         id: id,
       },
     });
   }
 
-  update(id: number, targetAudience: Prisma.TargetAudienceUpdateInput) {
-    return this.prisma.targetAudience.update({
-      data: targetAudience,
+  update(id: number, segmentOfActivity: Prisma.SegmentOfActivityUpdateInput) {
+    return this.prisma.segmentOfActivity.update({
+      data: segmentOfActivity,
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  remove(id: number) {
+    return this.prisma.segmentOfActivity.delete({
       where: {
         id: id,
       },
@@ -36,7 +44,7 @@ export class TargetAudiencesService {
   }
 
   connectPsychologist(psychologistId: number, targetAudienceId: number) {
-    return this.prisma.targetAudience.update({
+    return this.prisma.segmentOfActivity.update({
       data: {
         psychologist: {
           connect: {
@@ -51,7 +59,7 @@ export class TargetAudiencesService {
   }
 
   disconnectPsychologist(psychologistId: number, targetAudienceId: number) {
-    return this.prisma.targetAudience.update({
+    return this.prisma.segmentOfActivity.update({
       data: {
         psychologist: {
           disconnect: {
@@ -61,14 +69,6 @@ export class TargetAudiencesService {
       },
       where: {
         id: targetAudienceId,
-      },
-    });
-  }
-
-  remove(id: number) {
-    return this.prisma.targetAudience.delete({
-      where: {
-        id: id,
       },
     });
   }

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -108,10 +108,10 @@ model Notification {
   updatedAt      DateTime     @updatedAt
   description    String
   viewed         Boolean      @default(false)
-  client         Client       @relation(fields: [clientId], references: [id])
-  clientId       Int
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  client         Client?       @relation(fields: [clientId], references: [id])
+  clientId       Int?
+  psychologist   Psychologist? @relation(fields: [psychologistId], references: [id])
+  psychologistId Int?
 }
 
 model Review {
@@ -127,18 +127,18 @@ model Review {
 }
 
 model MedicalRecord {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  notes          String
-  theme          String
-  mood           String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
-  objective      String
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  notes           String
+  theme           String
+  mood            String //Devemos trocar para enum? e deixar pré definidas as opções de humor?
+  objective       String
   evolutionRecord String
-  client         Client       @relation(fields: [clientId], references: [id])
-  clientId       Int
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  client          Client?      @relation(fields: [clientId], references: [id])
+  clientId        Int?
+  psychologist    Psychologist @relation(fields: [psychologistId], references: [id])
+  psychologistId  Int
 }
 
 model AcademicFormation {
@@ -155,12 +155,11 @@ model AcademicFormation {
 }
 
 model TargetAudience {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  description    String
-  tag            String
-  psychologist   Psychologist[]
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  tag          String
+  psychologist Psychologist[]
 }
 
 enum Audience {
@@ -171,16 +170,14 @@ enum Audience {
 }
 
 model SegmentOfActivity {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  description    String
-  segment        PsychologistSegmentOfActivity
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  id             Int                           @id @default(autoincrement())
+  createdAt      DateTime                      @default(now())
+  updatedAt      DateTime                      @updatedAt
+  segment        String
+  psychologist   Psychologist[]
 }
 
-enum PsychologistSegmentOfActivity { // Apenas exemplos do que pode ser colocado no segmento de atuacao do psicologo
+enum PsychologistSegmentOfActivity {
   clinicalPsychology
   counselingPsychology
   forensicPsychology

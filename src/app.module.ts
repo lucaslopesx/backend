@@ -6,8 +6,11 @@ import { PsychologistModule } from './psychologist/psychologist.module';
 import { ClientsModule } from './clients/clients.module';
 import { TargetAudiencesModule } from './target-audiences/target-audiences.module';
 import { AcademicFormationModule } from './academic-formation/academic-formation.module';
+import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activity.module';
+import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { TriageModule } from './triage/triage.module';
 import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -16,8 +19,11 @@ import { MedicalAppointmentModule } from './medical-appointment/medical-appointm
     ClientsModule,
     TargetAudiencesModule,
     AcademicFormationModule,
+    SegmentOfActivityModule,
+    MedicalRecordModule,
     TriageModule,
     MedicalAppointmentModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
