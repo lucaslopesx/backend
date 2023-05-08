@@ -108,10 +108,10 @@ model Notification {
   updatedAt      DateTime     @updatedAt
   description    String
   viewed         Boolean      @default(false)
-  client         Client       @relation(fields: [clientId], references: [id])
-  clientId       Int
-  psychologist   Psychologist @relation(fields: [psychologistId], references: [id])
-  psychologistId Int
+  client         Client?       @relation(fields: [clientId], references: [id])
+  clientId       Int?
+  psychologist   Psychologist? @relation(fields: [psychologistId], references: [id])
+  psychologistId Int?
 }
 
 model Review {

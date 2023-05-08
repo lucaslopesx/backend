@@ -10,6 +10,7 @@ import { SegmentOfActivityModule } from './segment-of-activity/segment-of-activi
 import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { TriageModule } from './triage/triage.module';
 import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MedicalAppointmentModule } from './medical-appointment/medical-appointm
     MedicalRecordModule,
     TriageModule,
     MedicalAppointmentModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
