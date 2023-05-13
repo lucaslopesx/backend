@@ -11,6 +11,7 @@ import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { TriageModule } from './triage/triage.module';
 import { MedicalAppointmentModule } from './medical-appointment/medical-appointment.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { NotificationsModule } from './notifications/notifications.module';
     NotificationsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
